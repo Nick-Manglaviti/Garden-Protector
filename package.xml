@@ -59,6 +59,11 @@
   <build_depend>actionlib_msgs</build_depend>
   <build_export_depend>actionlib_msgs</build_export_depend>
   <exec_depend>actionlib_msgs</exec_depend>
+  
+  <build_depend>sensor_msgs</build_depend>
+  <build_export_depend>sensor_msgs</build_export_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+
 
 
   <!-- The export tag contains other, unspecified, tags -->

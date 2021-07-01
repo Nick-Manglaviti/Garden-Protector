@@ -1,4 +1,5 @@
 #! usr/bin/python3
+from enum import Enum
 
 # Robot Modes
 class Modes(Enum):
@@ -8,14 +9,18 @@ class Modes(Enum):
 
 
 # Servo Pin Values (Use GPIO.BCM values for pins)
-class ServoID(Enum):
-    Servo1 = 4 # Yaw
-    Servo2 = 14 # Pitch
-    Servo3 = 17 # Trigger
+class Servos(Enum):
+    YAW = 4
+    PITCH = 14
+    TRIGGER = 17
+
+class ServoRange(Enum):
+    MAX = 1
+    MIN = -1
 
 # ROS Topics
 class Topics(Enum):
-    CMD_VEL = '/cmd_vel'
+    CMD_VEL = '/cmd_vel'            
     CAMERA_FEED = '/camera_feed'
 
 # ROS Actions

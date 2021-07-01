@@ -1,0 +1,8 @@
+<launch>
+	<param name="/camera_publish_rate" type="double" value="6"/>
+	
+	<node 	pkg="garden_protector"
+		type="camera_feed_pub.py"
+		name="camera_publisher_node"
+		output="screen"/>
+</launch>
