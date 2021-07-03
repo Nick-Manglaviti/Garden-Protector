@@ -7,11 +7,12 @@ project(garden_protector)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
-  rospy
-  message_generation
-  actionlib_msgs
-  sensor_msgs
+find_package(catkin REQUIRED COMPONENTS 
+	rospy 
+	message_generation
+	actionlib_msgs
+	sensor_msgs
+	garden_protector
 )
 
 ## System dependencies are found with CMake's conventions
@@ -69,10 +70,11 @@ add_action_files(
 )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
+generate_messages(
+   DEPENDENCIES
+   actionlib_msgs
+   sensor_msgs
+ )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
