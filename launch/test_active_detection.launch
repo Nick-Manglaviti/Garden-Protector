@@ -1,0 +1,16 @@
+<launch>
+	
+	<param 	name="/robot_mode"
+		type="int"
+		value="0"/>
+	
+	<param 	name="/turn_rate"
+		type="double"
+		value="0.1"/>	
+	
+	<node 	pkg="garden_protector"
+		type="active_detection.py"
+		name="active_detection_test_node"
+		output="screen"/>
+
+</launch>
