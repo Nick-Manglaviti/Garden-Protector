@@ -12,7 +12,6 @@ find_package(catkin REQUIRED COMPONENTS
 	message_generation
 	actionlib_msgs
 	sensor_msgs
-	garden_protector
 )
 
 ## System dependencies are found with CMake's conventions
