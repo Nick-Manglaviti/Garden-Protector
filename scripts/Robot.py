@@ -14,6 +14,7 @@ class Robot(object):
         self._default_mode = rospy.get_param("/robot_mode")
         self.current_mode = self._default_mode
         self.cmd_vel_pub = rospy.Publisher(mp.Topics.CMD_VEL.value, Orientation, queue_size=1)
+        self.cmd_vel_sub = rospy.Subscriber(mp.Topics.CMD_VEL.value, Orientation, self._cmd_vel_callback)
         self.cmd_vel_msg = Orientation()
 
     def _init_servos(self):
@@ -46,11 +47,28 @@ class Robot(object):
         self.servo_yaw_state = yaw
         self.servo_pitch_state = pitch
         
-        print("Step")
-        print(self.servo_yaw_state)
-        print(self.servo_pitch_state)
-        
         self.cmd_vel_msg.yaw = self.servo_yaw_state
         self.cmd_vel_msg.pitch = self.servo_pitch_state
         self.cmd_vel_pub.publish(self.cmd_vel_msg)
-        sleep(1)
+        sleep(rospy.get_param("/turn_rate"))
+
+    def _cmd_vel_callback(self, msg):
+        if msg.yaw >= mp.ServoRange.MAX.value:
+            msg.yaw = mp.ServoRange.MAX.value
+        if msg.pitch >= mp.ServoRange.MAX.value:
+            msg.pitch = mp.ServoRange.MAX.value
+        if msg.yaw <= mp.ServoRange.MIN.value:
+            msg.yaw = mp.ServoRange.MIN.value
+        if msg.pitch <= mp.ServoRange.MIN.value:
+            msg.pitch = mp.ServoRange.MIN.value
+        
+        if msg.yaw == self.servo_yaw_state:
+            self.servo_yaw.detach()
+        else:
+            self.servo_yaw_state = msg.yaw
+            self.servo_yaw.value = self.servo_yaw_state
+        if msg.pitch == self.servo_pitch_state:
+            self.servo_pitch.detach()
+        else:
+            self.servo_pitch_state = msg.pitch
+            self.servo_pitch.value = self.servo_pitch_state

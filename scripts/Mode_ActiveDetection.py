@@ -9,7 +9,7 @@ by an increment (value of turn) until a target is found.
 class Mode_ActiveDetection(object):
     
     def __init__(self):
-        self.turn = rospy.get_param("/turn_rate")
+        self.turn = rospy.get_param("/turn_percent")
 
     def process(self, robot):
         if robot.target_found:
