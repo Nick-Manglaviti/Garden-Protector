@@ -5,5 +5,8 @@
 bool done
 ---
 # Feedback
-Orientation offset
+float32 xmin
+float32 xmax
+float32 ymin
+float32 ymax
 bool target_found
