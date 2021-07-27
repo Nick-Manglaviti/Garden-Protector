@@ -19,4 +19,4 @@ class Mode_ActiveDetection(object):
                 self.turn = -self.turn
             elif robot.servo_yaw_state <= mp.ServoRange.MIN.value:
                 self.turn = abs(self.turn)
-            robot.relative_move(self.turn, 0)
+            robot.relative_orient(self.turn, 0)

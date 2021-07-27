@@ -20,9 +20,10 @@ class ServoRange(Enum):
 
 # ROS Topics
 class Topics(Enum):
-    CMD_VEL = '/cmd_vel'            
-    CAMERA_FEED = '/camera_feed'
+    ORIENTATION = 'garden_protector/orientation'            
+    CAMERA_FEED = 'garden_protector/camera_feed'
+    TRIGGER = 'garden_protector/trigger'
 
 # ROS Actions
 class Actions(Enum):
-    Target_Scan = '/target_scan_action_server'
+    TARGET_SCAN = 'garden_protector/target_scan_action_server'

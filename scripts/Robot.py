@@ -2,20 +2,32 @@
 
 import rospy
 import mappings as mp
-from garden_protector.msg import Orientation
 from gpiozero import Servo
+
+from garden_protector.msg import Orientation
+from std_msgs.msg import Bool
+from orient_sub import OrientSub
+from trigger_sub import TriggerSub
+
 from time import sleep
 
 class Robot(object):
 
     def __init__(self):
         self._init_servos()
-        self.target_found = False
         self._default_mode = rospy.get_param("/robot_mode")
         self.current_mode = self._default_mode
-        self.cmd_vel_pub = rospy.Publisher(mp.Topics.CMD_VEL.value, Orientation, queue_size=1)
-        self.cmd_vel_sub = rospy.Subscriber(mp.Topics.CMD_VEL.value, Orientation, self._cmd_vel_callback)
-        self.cmd_vel_msg = Orientation()
+        
+        self.orient_pub = rospy.Publisher(mp.Topics.ORIENTATION.value, Orientation, queue_size=1)
+        self.trigger_pub = rospy.Publisher(mp.Topics.TRIGGER.value, Bool, queue_size=1)
+        self.trigger_msg = Bool()
+        self.trigger_sub = TriggerSub(self)
+        self.orient_sub = OrientSub(self)
+        self.orient_msg = Orientation()
+        
+        self.target_found = False
+
+        print('Robot Initialized.')
 
     def _init_servos(self):
         self.servo_yaw_state = 0
@@ -31,7 +43,7 @@ class Robot(object):
     def change_mode(self, mode):
         self.current_mode = mode
 
-    def relative_move(self, x, y):
+    def relative_orient(self, x, y):
         yaw = self.servo_yaw_state + x
         pitch = self.servo_pitch_state + y
         
@@ -47,28 +59,31 @@ class Robot(object):
         self.servo_yaw_state = yaw
         self.servo_pitch_state = pitch
         
-        self.cmd_vel_msg.yaw = self.servo_yaw_state
-        self.cmd_vel_msg.pitch = self.servo_pitch_state
-        self.cmd_vel_pub.publish(self.cmd_vel_msg)
+        self.orient_msg.yaw = self.servo_yaw_state
+        self.orient_msg.pitch = self.servo_pitch_state
+        self.orient_pub.publish(self.orient_msg)
         sleep(rospy.get_param("/turn_rate"))
 
-    def _cmd_vel_callback(self, msg):
-        if msg.yaw >= mp.ServoRange.MAX.value:
-            msg.yaw = mp.ServoRange.MAX.value
-        if msg.pitch >= mp.ServoRange.MAX.value:
-            msg.pitch = mp.ServoRange.MAX.value
-        if msg.yaw <= mp.ServoRange.MIN.value:
-            msg.yaw = mp.ServoRange.MIN.value
-        if msg.pitch <= mp.ServoRange.MIN.value:
-            msg.pitch = mp.ServoRange.MIN.value
+    def fixed_orient(self, x, y):
+        if x > 1:
+            x = 1
+        if x < -1:
+            x = -1
+        if y > 1:
+            y = 1
+        if y < -1:
+            y = -1
+
+        self.servo_yaw_state = x
+        self.servo_pitch_state = y
         
-        if msg.yaw == self.servo_yaw_state:
-            self.servo_yaw.detach()
-        else:
-            self.servo_yaw_state = msg.yaw
-            self.servo_yaw.value = self.servo_yaw_state
-        if msg.pitch == self.servo_pitch_state:
-            self.servo_pitch.detach()
-        else:
-            self.servo_pitch_state = msg.pitch
-            self.servo_pitch.value = self.servo_pitch_state
+        self.orient_msg.yaw = self.servo_yaw_state
+        self.orient_msg.pitch = self.servo_pitch_state
+        self.orient_pub.publish(self.orient_msg)
+        sleep(rospy.get_param("/turn_rate"))
+    
+    def fire(self):
+        self.trigger_msg.data = True
+        self.trigger_pub.publish(self.trigger_msg)
+        rospy.loginfo("Published Firing Request.")
+
