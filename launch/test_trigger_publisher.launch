@@ -1,0 +1,11 @@
+<launch>
+	
+	<param 	name="/robot_mode"
+		type="int"
+		value="0"/>
+	
+	<node 	pkg="garden_protector"
+		type="test_trigger.py"
+		name="test_trigger_node"
+		output="screen"/>
+</launch>
