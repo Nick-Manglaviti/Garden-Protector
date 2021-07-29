@@ -4,10 +4,10 @@
 		value="30"/>
 	<node 	pkg="garden_protector"
 		type="camera_feed_pub.py"
-		name="camera_publisher_node"
+		name="camera_pub_node"
 		output="screen"/>
 	<node	pkg="garden_protector"
 		type="camera_sub_check.py"
-		name="camera_publisher_test_node"
+		name="camera_sub_test_node"
 		output="screen"/>
 </launch>

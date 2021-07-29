@@ -31,4 +31,3 @@ if __name__ == '__main__':
     camera_pub_obj = CameraPub()
     while not rospy.is_shutdown():
         camera_pub_obj.publish_img()
-        camera_pub_obj.rate.sleep()
