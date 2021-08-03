@@ -1,8 +1,10 @@
-<launch>
-	
+<launch>	
+
+	<include file="$(find garden_protector)/launch/target_scan_server.launch"/>	
+
 	<param 	name="/robot_mode"
 		type="int"
-		value="0"/>
+		value="1"/>
 	
 	<param 	name="/turn_rate"
 		type="double"

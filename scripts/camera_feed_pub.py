@@ -10,7 +10,6 @@ class CameraPub(object):
 
     def __init__(self):
         rospy.init_node("camera_publisher_node")
-        self.rate = rospy.Rate(rospy.get_param("/camera_publish_rate"))
         self.bridge = CvBridge()
         
         self.camera = cv2.VideoCapture(0, cv2.CAP_V4L2)

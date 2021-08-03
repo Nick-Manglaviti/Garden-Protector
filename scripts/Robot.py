@@ -3,31 +3,40 @@
 import rospy
 import mappings as mp
 from gpiozero import Servo
-
 from garden_protector.msg import Orientation
 from std_msgs.msg import Bool
 from orient_sub import OrientSub
 from trigger_sub import TriggerSub
-
+from target_scan_client import TargetScanClient
 from time import sleep
 
 class Robot(object):
 
     def __init__(self):
+
+        # Init Instance Fields
         self._init_servos()
+        self.target_found = False
         self._default_mode = rospy.get_param("/robot_mode")
         self.current_mode = self._default_mode
+        self.turn_rate = rospy.get_param("/turn_rate")
         
-        self.orient_pub = rospy.Publisher(mp.Topics.ORIENTATION.value, Orientation, queue_size=1)
+        # Action Client
+        self.target_scan_client = TargetScanClient(self)
+        
+        # Publishers
         self.trigger_pub = rospy.Publisher(mp.Topics.TRIGGER.value, Bool, queue_size=1)
+        self.orient_pub = rospy.Publisher(mp.Topics.ORIENTATION.value, Orientation, queue_size=1)
+
+        # Messages
         self.trigger_msg = Bool()
+        self.orient_msg = Orientation()
+
+        # Subscribers
         self.trigger_sub = TriggerSub(self)
         self.orient_sub = OrientSub(self)
-        self.orient_msg = Orientation()
-        
-        self.target_found = False
 
-        print('Robot Initialized.')
+        rospy.loginfo('Robot Initialized.')
 
     def _init_servos(self):
         self.servo_yaw_state = 0
@@ -62,7 +71,7 @@ class Robot(object):
         self.orient_msg.yaw = self.servo_yaw_state
         self.orient_msg.pitch = self.servo_pitch_state
         self.orient_pub.publish(self.orient_msg)
-        sleep(rospy.get_param("/turn_rate"))
+        sleep(self.turn_rate)
 
     def fixed_orient(self, x, y):
         if x > 1:
@@ -80,7 +89,7 @@ class Robot(object):
         self.orient_msg.yaw = self.servo_yaw_state
         self.orient_msg.pitch = self.servo_pitch_state
         self.orient_pub.publish(self.orient_msg)
-        sleep(rospy.get_param("/turn_rate"))
+        sleep(self.turn_rate)
     
     def fire(self):
         self.trigger_msg.data = True

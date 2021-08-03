@@ -3,9 +3,10 @@ from enum import Enum
 
 # Robot Modes
 class Modes(Enum):
-    ACTIVE_DETECTION = 0
-    PASSIVE_DETECTION = 1
-    TARGETTING = 2
+    IDLE = 0
+    ACTIVE_DETECTION = 1
+    PASSIVE_DETECTION = 2
+    TARGETTING = 3
 
 
 # Servo Pin Values (Use GPIO.BCM values for pins)

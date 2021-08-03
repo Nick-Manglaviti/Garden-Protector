@@ -1,4 +1,5 @@
 <launch>
+	<include file="$(find garden_protector)/launch/target_scan_server.launch"/>	
 	
 	<param 	name="/robot_mode"
 		type="int"

@@ -1,0 +1,25 @@
+<launch>
+	<include file="$(find garden_protector)/launch/target_scan_server.launch"/>
+	<include file="$(find garden_protector)/launch/camera_publisher.launch"/>
+
+	<param 	name="/robot_mode"
+		type="int"
+		value="0"/>
+	
+	<param 	name="/robot_adjustment_level"
+		type="double"
+		value="0.1"/>
+	
+	<param 	name="/img_offset_percentage"
+		type="double"
+		value=".07"/>
+
+	<param 	name="/turn_rate"
+		type="double"
+		value=".02"/>
+	
+	<node 	pkg="garden_protector"
+		type="test_target_scanner.py"
+		name="test_target_scan_application"
+		output="screen"/>
+</launch>

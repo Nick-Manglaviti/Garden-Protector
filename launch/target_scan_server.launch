@@ -1,0 +1,8 @@
+<launch>
+
+	<node 	pkg="garden_protector"
+		type="target_scan_server.py"
+		name="target_scan_server_node"
+		output="screen"/>
+
+</launch>

@@ -48,22 +48,16 @@ class TargetScan(object):
             ymin = int(max(1, ymin * CAMERA_HEIGHT))
             ymax = int(min(CAMERA_HEIGHT, ymax * CAMERA_HEIGHT))
 
-            ymin, xmin, ymax, xmax = result['bounding_box']
-            xmin = int(max(1,xmin * CAMERA_WIDTH))
-            xmax = int(min(CAMERA_WIDTH, xmax * CAMERA_WIDTH))
-            ymin = int(max(1, ymin * CAMERA_HEIGHT))
-            ymax = int(min(CAMERA_HEIGHT, ymax * CAMERA_HEIGHT))
-
             cv2.rectangle(cv_img,(xmin, ymin),(xmax, ymax),(0,255,0),3)
             cv2.putText(cv_img,self.labels[int(result['class_id'])],(xmin, min(ymax, CAMERA_HEIGHT-20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(255,255,255),2,cv2.LINE_AA)
             if self.labels[int(result['class_id'])] != self.labels[0]:
                 continue
             else:
                 feedback.target_found = True
-                feedback.xmin = xmin
-                feedback.xmax = xmax
-                feedback.ymin = ymin
-                feedback.ymax = ymax
+                feedback.xmin = xmin / CAMERA_WIDTH
+                feedback.xmax = xmax / CAMERA_WIDTH
+                feedback.ymin = ymin / CAMERA_HEIGHT
+                feedback.ymax = ymax / CAMERA_HEIGHT
                 self._as.publish_feedback(feedback)
                 break
 
