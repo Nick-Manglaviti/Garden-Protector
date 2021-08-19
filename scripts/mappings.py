@@ -6,7 +6,8 @@ class Modes(Enum):
     IDLE = 0
     ACTIVE_DETECTION = 1
     PASSIVE_DETECTION = 2
-    TARGETTING = 3
+    TARGET_FOUND = 3
+    TARGETTING = 4
 
 
 # Servo Pin Values (Use GPIO.BCM values for pins)

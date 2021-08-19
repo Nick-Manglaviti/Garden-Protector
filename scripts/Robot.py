@@ -49,8 +49,24 @@ class Robot(object):
         self.servo_pitch.detach()
         self.servo_trigger.detach()
 
+    def reset_servos(self):
+        self.servo_yaw_state = 0
+        self.servo_pitch_state = 0
+        self.servo_trigger_state = 0
+        self.servo_yaw.mid()
+        self.servo_pitch.mid()
+        self.servo_trigger.max()
+        sleep(self.turn_rate)
+        self.servo_yaw.detach()
+        self.servo_pitch.detach()
+        self.servo_trigger.detach()
+
+
     def change_mode(self, mode):
         self.current_mode = mode
+    
+    def default_mode(self):
+        self.current_mode = self._default_mode
 
     def relative_orient(self, x, y):
         yaw = self.servo_yaw_state + x

@@ -9,7 +9,7 @@ from time import sleep
 servo1 = Servo(4)
 servo2 = Servo(14)
 servo3 = Servo(17)
-
+servo3.max()
 sleep(1)
 
 print('Moving Yaw Servo')
@@ -41,11 +41,7 @@ sleep(1)
 print('Moving Trigger Servo')
 servo3.min()
 sleep(1)
-servo3.mid()
-sleep(1)
 servo3.max()
-sleep(1)
-servo3.mid()
 sleep(1)
 print('Done')
 

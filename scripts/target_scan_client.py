@@ -28,7 +28,7 @@ class TargetScanClient(object):
     def _process_img_fb(self, msg):
         feedback = msg.feedback
         if (feedback.target_found == True):
-            self.robot.change_mode(mp.Modes.TARGETTING.value)
+            self.robot.change_mode(mp.Modes.TARGET_FOUND.value)
             move_msg = Orientation()
             move_msg.yaw = 0
             move_msg.pitch = 0
@@ -40,15 +40,15 @@ class TargetScanClient(object):
             if (abs(x_offset)  > abs(self.offset_buffer)):
                 adjustment = True
                 if x_offset > 0:
-                    move_msg.yaw = self.adjust_level
-                else:
                     move_msg.yaw = -self.adjust_level
+                else:
+                    move_msg.yaw = self.adjust_level
             if y_offset > abs(self.offset_buffer):
                 adjustment = True
                 if y_offset > 0:
                     move_msg.pitch = self.adjust_level
                 else:
-                    move_msg.pitch = self.adjust_level
+                    move_msg.pitch = -self.adjust_level
             if adjustment == False:
                 rospy.loginfo('Target Locked.')
                 self.robot.fire()

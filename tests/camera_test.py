@@ -15,7 +15,7 @@ while(True):
   
     # Display the resulting frame
     cv2.imshow('frame', frame)
-    cv2.imwrite('Image_Example.png', frame)
+    #cv2.imwrite('Image_Example.png', frame)
     # the 'q' button is set as the
     # quitting button you may use any
     # desired button of your choice

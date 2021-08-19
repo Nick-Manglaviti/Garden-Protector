@@ -16,15 +16,15 @@ class TriggerSub(object):
     def _callback(self, msg):
         if msg.data == True:
             rospy.loginfo("Firing!")
-            self.robot.servo_trigger_state = 1
-            self.robot.servo_trigger.value = 1
-            sleep(.4)
             self.robot.servo_trigger_state = -1
             self.robot.servo_trigger.value = -1
-            sleep(.4)
+            sleep(.6)
+            self.robot.servo_trigger_state = 1
+            self.robot.servo_trigger.value = 1
+            sleep(.6)
             self.robot.servo_trigger.detach()
         else:
             rospy.loginfo("Resetting Trigger Servo.")
-            self.robot.servo_trigger_state = -1
-            self.robot.servo_trigger.value = -1
+            self.robot.servo_trigger_state = 1
+            self.robot.servo_trigger.value = 1
             sleep(.4)
