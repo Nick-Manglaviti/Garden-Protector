@@ -1,5 +1,6 @@
 Garden Protector
-
+![alt text](https://github.com/Nick-Manglaviti/Garden-Protector/Front_Image.jpg?raw=true)
+![alt text](https://github.com/[username]/[reponame]/blob/[branch]/Back_Image.jpg?raw=true)
 What Does this Robot Do?
 	This sentry-like robot will scan its field of via the connected webcam and will detect any pesky squirrels 
 	within is vision. Once detected, the robot will point itself directly at the squirrel and spray it with
