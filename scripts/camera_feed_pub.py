@@ -11,7 +11,6 @@ class CameraPub(object):
     def __init__(self):
         rospy.init_node("camera_publisher_node")
         self.bridge = CvBridge()
-        
         self.camera = cv2.VideoCapture(0, cv2.CAP_V4L2)
         self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
         self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)

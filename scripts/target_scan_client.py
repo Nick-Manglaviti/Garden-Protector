@@ -20,15 +20,18 @@ class TargetScanClient(object):
         self.goal = TargetScanGoal()
 
     def send_goal(self):
+        rospy.loginfo("Goal sent to Target Scan Action Server.")
         self.client.send_goal(self.goal)
     
     def cancel(self):
+        rospy.loginfo("Goal cancelled for Target Scan Action Server.")
         self.client.cancel_goal()
     
     def _process_img_fb(self, msg):
         feedback = msg.feedback
         if (feedback.target_found == True):
-            self.robot.change_mode(mp.Modes.TARGET_FOUND.value)
+            rospy.loginfo("Target Found!")
+            self.robot.change_mode(mp.Modes.TARGET_FOUND)
             move_msg = Orientation()
             move_msg.yaw = 0
             move_msg.pitch = 0

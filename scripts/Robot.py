@@ -50,6 +50,7 @@ class Robot(object):
         self.servo_trigger.detach()
 
     def reset_servos(self):
+        rospy.loginfo("Reset Servos.")
         self.servo_yaw_state = 0
         self.servo_pitch_state = 0
         self.servo_trigger_state = 0
@@ -60,12 +61,19 @@ class Robot(object):
         self.servo_yaw.detach()
         self.servo_pitch.detach()
         self.servo_trigger.detach()
+        rospy.loginfo("Servo positions reset.")
 
+    def detach_servos(self):
+        self.servo_yaw.detach()
+        self.servo_pitch.detach()
+        self.servo_trigger.detach()
 
     def change_mode(self, mode):
-        self.current_mode = mode
+        rospy.loginfo("Changing Mode to " + str(mode))
+        self.current_mode = mode.value
     
     def default_mode(self):
+        rospy.loginfo("Returning to default mode.")
         self.current_mode = self._default_mode
 
     def relative_orient(self, x, y):

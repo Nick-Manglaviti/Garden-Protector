@@ -23,6 +23,7 @@ class TargetScan(object):
         self.interpreter = Interpreter('/home/pi/catkin_ws/src/garden_protector/model/detect.tflite')
         self.interpreter.allocate_tensors()
         _, input_height, input_width, _ = self.interpreter.get_input_details()[0]['shape']
+        rospy.loginfo("Target Scan Server Online.")
 
     def callback(self, goal):
         active = True
@@ -60,11 +61,9 @@ class TargetScan(object):
                 feedback.ymax = ymax / CAMERA_HEIGHT
                 self._as.publish_feedback(feedback)
                 break
-
+        
         cv2.imshow('Pi Feed', cv_img)
         cv2.waitKey(1)
-        
-            
 
     def load_labels(self, path):
         with open(path, 'r', encoding='utf-8') as f:

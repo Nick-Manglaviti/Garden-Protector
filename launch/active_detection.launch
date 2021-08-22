@@ -9,11 +9,15 @@
 
         <param  name="turn_rate"
                 type="double"
-                value=".4"/>
+                value=".1"/>
 	
 	<param 	name="turn_percent"
 		type="double"
-		value=".1"/>	
+		value=".4"/>	
+	
+	<param 	name="watch_interval"
+		type="int"
+		value="5"/>
 
         <param  name="robot_adjustment_level"
                 type="double"
