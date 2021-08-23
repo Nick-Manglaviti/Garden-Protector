@@ -1,7 +1,5 @@
 ## Garden Protector
 
-![Back](https://github.com/Nick-Manglaviti/Garden-Protector/blob/master/Front_Image.jpg?raw=true)
-![Front](https://github.com/Nick-Manglaviti/Garden-Protector/blob/master/Back_Image.jpg?raw=true)
 
 
 ### What Does this Robot Do?
@@ -78,6 +76,9 @@
 		(7) https://github.com/nicknochnack/GenerateTFRecord
 
 ### The Hardware
+![Back](https://github.com/Nick-Manglaviti/Garden-Protector/blob/master/Front_Image.jpg?raw=true)
+![Front](https://github.com/Nick-Manglaviti/Garden-Protector/blob/master/Back_Image.jpg?raw=true)
+
 	Main Components
 		1 Raspberry Pi 4 Model B
 		1 4 AA Battery Holder
