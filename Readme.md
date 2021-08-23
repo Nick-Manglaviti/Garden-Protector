@@ -1,5 +1,9 @@
 ## Garden Protector
 
+### Demo
+https://youtu.be/<https://www.youtube.com/watch?v=qWOI5V0a2xQ>
+[<img src="https://img.youtube.com/vi/qWOI5V0a2xQ/maxresdefault.jpg" width="50%">](https://youtu.be/<qWOI5V0a2xQ>)
+
 
 
 ### What Does this Robot Do?
@@ -76,8 +80,9 @@
 		(7) https://github.com/nicknochnack/GenerateTFRecord
 
 ### The Hardware
-![Back](https://github.com/Nick-Manglaviti/Garden-Protector/blob/master/Front_Image.jpg?raw=true)
-![Front](https://github.com/Nick-Manglaviti/Garden-Protector/blob/master/Back_Image.jpg?raw=true)
+
+<img src="https://github.com/Nick-Manglaviti/Garden-Protector/blob/master/Front_Image.jpg" width="50%">
+<img src="https://github.com/Nick-Manglaviti/Garden-Protector/blob/master/Back_Image.jpg" width="50%">
 
 	Main Components
 		1 Raspberry Pi 4 Model B
