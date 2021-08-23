@@ -14,15 +14,30 @@ from cv_bridge import CvBridge
 CAMERA_WIDTH = 640
 CAMERA_HEIGHT = 480
 
+'''
+This Server will setup the interpreter for object detection.
+Once a goal is sent the server will continuosly take the most recent image
+from the camera publishing topic and try to detect an object. If an object
+with a squirrel label is identified, then send the information through the
+feedback topic back to the client.
+'''
 class TargetScan(object):
     
     def __init__(self):
+
+        # Start the Action Server
         self._as = actionlib.SimpleActionServer(mp.Actions.TARGET_SCAN.value, TargetScanAction, self.callback, False)
         self._as.start()
+        self.feedback = TargetScanFeedback() 
+        
+        # Setup Labels and Model
         self.labels = self.load_labels('/home/pi/catkin_ws/src/garden_protector/model/labels.txt')
         self.interpreter = Interpreter('/home/pi/catkin_ws/src/garden_protector/model/detect.tflite')
         self.interpreter.allocate_tensors()
         _, input_height, input_width, _ = self.interpreter.get_input_details()[0]['shape']
+       
+        self.bridge = CvBridge()
+
         rospy.loginfo("Target Scan Server Online.")
 
     def callback(self, goal):
@@ -35,10 +50,8 @@ class TargetScan(object):
             self.image_process(msg)
             
     def image_process(self, msg):
-        bridge = CvBridge()
-        feedback = TargetScanFeedback()
-        feedback.target_found = False
-        cv_img = bridge.imgmsg_to_cv2(msg, desired_encoding='passthrough')
+        self.feedback.target_found = False 
+        cv_img = self.bridge.imgmsg_to_cv2(msg, desired_encoding='passthrough')
         img = cv2.resize(cv_img, (320,320))
         res = self.detect_objects(img, 0.8)
 
@@ -46,7 +59,7 @@ class TargetScan(object):
             ymin, xmin, ymax, xmax = result['bounding_box']
             xmin = int(max(1,xmin * CAMERA_WIDTH))
             xmax = int(min(CAMERA_WIDTH, xmax * CAMERA_WIDTH))
-            ymin = int(max(1, ymin * CAMERA_HEIGHT))
+            ymin = int(max(1,ymin * CAMERA_HEIGHT))
             ymax = int(min(CAMERA_HEIGHT, ymax * CAMERA_HEIGHT))
 
             cv2.rectangle(cv_img,(xmin, ymin),(xmax, ymax),(0,255,0),3)
@@ -54,12 +67,12 @@ class TargetScan(object):
             if self.labels[int(result['class_id'])] != self.labels[0]:
                 continue
             else:
-                feedback.target_found = True
-                feedback.xmin = xmin / CAMERA_WIDTH
-                feedback.xmax = xmax / CAMERA_WIDTH
-                feedback.ymin = ymin / CAMERA_HEIGHT
-                feedback.ymax = ymax / CAMERA_HEIGHT
-                self._as.publish_feedback(feedback)
+                self.feedback.target_found = True
+                self.feedback.xmin = xmin / CAMERA_WIDTH
+                self.feedback.xmax = xmax / CAMERA_WIDTH
+                self.feedback.ymin = ymin / CAMERA_HEIGHT
+                self.feedback.ymax = ymax / CAMERA_HEIGHT
+                self._as.publish_feedback(self.feedback)
                 break
         
         cv2.imshow('Pi Feed', cv_img)

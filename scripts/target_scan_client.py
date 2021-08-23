@@ -5,12 +5,21 @@ import actionlib
 import mappings as mp
 from garden_protector.msg import TargetScanAction, TargetScanGoal, Orientation, TargetScanFeedback
 
+'''
+    The client will wait for the server, then once connected
+    will subscribe to its feedback topic. This topic will give info
+    on if a target was found and at what level of the picture.
+    If the bounding box is not centered, then a slight adjustment is made,
+    else it tells the robot to fire.
+'''
 class TargetScanClient(object):
     
     def __init__(self, robot):
         self.robot = robot
         self.adjust_level = rospy.get_param("/robot_adjustment_level")
         self.offset_buffer = rospy.get_param("/img_offset_percentage")
+        
+        # Start Up Action Client
         self.client = actionlib.SimpleActionClient(mp.Actions.TARGET_SCAN.value, TargetScanAction)
         rospy.loginfo('Robot waiting for '+ mp.Actions.TARGET_SCAN.value)
         self.client.wait_for_server()
@@ -26,7 +35,7 @@ class TargetScanClient(object):
     def cancel(self):
         rospy.loginfo("Goal cancelled for Target Scan Action Server.")
         self.client.cancel_goal()
-    
+   
     def _process_img_fb(self, msg):
         feedback = msg.feedback
         if (feedback.target_found == True):
@@ -46,7 +55,7 @@ class TargetScanClient(object):
                     move_msg.yaw = -self.adjust_level
                 else:
                     move_msg.yaw = self.adjust_level
-            if y_offset > abs(self.offset_buffer):
+            if abs(y_offset) > abs(self.offset_buffer):
                 adjustment = True
                 if y_offset > 0:
                     move_msg.pitch = self.adjust_level

@@ -15,11 +15,11 @@ class Robot(object):
     def __init__(self):
 
         # Init Instance Fields
+        self.turn_rate = rospy.get_param("/turn_rate")
+        self._default_mode = rospy.get_param("/robot_mode")
         self._init_servos()
         self.target_found = False
-        self._default_mode = rospy.get_param("/robot_mode")
         self.current_mode = self._default_mode
-        self.turn_rate = rospy.get_param("/turn_rate")
         
         # Action Client
         self.target_scan_client = TargetScanClient(self)
@@ -41,10 +41,12 @@ class Robot(object):
     def _init_servos(self):
         self.servo_yaw_state = 0
         self.servo_pitch_state = 0
-        self.servo_trigger_state = 0
+        self.servo_trigger_state = 1
         self.servo_yaw = Servo(mp.Servos.YAW.value)
         self.servo_pitch = Servo(mp.Servos.PITCH.value)
         self.servo_trigger = Servo(mp.Servos.TRIGGER.value)
+        self.servo_trigger.max()
+        sleep(1)
         self.servo_yaw.detach()
         self.servo_pitch.detach()
         self.servo_trigger.detach()
@@ -57,7 +59,7 @@ class Robot(object):
         self.servo_yaw.mid()
         self.servo_pitch.mid()
         self.servo_trigger.max()
-        sleep(self.turn_rate)
+        sleep(1)
         self.servo_yaw.detach()
         self.servo_pitch.detach()
         self.servo_trigger.detach()
@@ -69,11 +71,9 @@ class Robot(object):
         self.servo_trigger.detach()
 
     def change_mode(self, mode):
-        rospy.loginfo("Changing Mode to " + str(mode))
         self.current_mode = mode.value
     
     def default_mode(self):
-        rospy.loginfo("Returning to default mode.")
         self.current_mode = self._default_mode
 
     def relative_orient(self, x, y):
@@ -116,7 +116,6 @@ class Robot(object):
         sleep(self.turn_rate)
     
     def fire(self):
+        rospy.loginfo("Publishing Fire Request...")
         self.trigger_msg.data = True
         self.trigger_pub.publish(self.trigger_msg)
-        rospy.loginfo("Published Firing Request.")
-
