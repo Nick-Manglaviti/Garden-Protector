@@ -142,7 +142,5 @@ https://youtu.be/<https://www.youtube.com/watch?v=qWOI5V0a2xQ>
 	A zip-tie goes around a screw connected to the rotary pan of the trigger servo to pull 
 	on the bottle spray head's trigger. 
 
-
-
-
-
+### ROS Graph Topic Relationships
+<img src="https://github.com/Nick-Manglaviti/Garden-Protector/blob/master/GardenProtectorROSGraph.png">
