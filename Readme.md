@@ -1,12 +1,16 @@
-##Garden Protector
+## Garden Protector
 
-###What Does this Robot Do?
+![Back](https://github.com/Nick-Manglaviti/Garden-Protector/blob/master/Front_Image.jpg?raw=true)
+![Front](https://github.com/Nick-Manglaviti/Garden-Protector/blob/master/Back_Image.jpg?raw=true)
+
+
+### What Does this Robot Do?
 	This sentry-like robot will scan its field of via the connected webcam and will detect any pesky squirrels 
 	within is vision. Once detected, the robot will point itself directly at the squirrel and spray it with
 	water until it leaves, thus protecting your plants or bird feeders from the unwanted guest (unless the squirrel
 	is thirsty!).
 
-###Purpose For the Project
+### Purpose For the Project
 	The main purpose of this project was to get some hands-on experience designing and constructing a robot
 	from conception to a finished product. I've been learning robotics by developing and learning through 
 	an online ROS course, but most of that comes from the software perspective. Being a computer science, I've 
@@ -14,7 +18,7 @@
 	create my very own robot was a good way to familiarize myself with the hardware construction and usage. 
 	This is why the robot is more of a working concept rather than a real practical creation.
 
-###Install and Run
+### Install and Run
 	The installation process involves some pre-prerequisite installations such as...
 	1 - Ubuntu Mate (20.04) on a Raspberry Pi 4 Model B
 	2 - ROS-Noetic with catkin_ws
@@ -41,7 +45,7 @@
 		roslaunch garden_protector active_detection.launch
 	6) There are some ros.params in the launch file if you want to affect the behaviour a bit.
 	
-###The Software
+### The Software
 	For the Raspberry Pi 
 		+ Ubuntu Mate (20.04 Focal Fossa)
 		+ ROS Noetic
@@ -73,7 +77,7 @@
 		(6) https://github.com/tzutalin/labelImg
 		(7) https://github.com/nicknochnack/GenerateTFRecord
 
-###The Hardware
+### The Hardware
 	Main Components
 		1 Raspberry Pi 4 Model B
 		1 4 AA Battery Holder
@@ -96,7 +100,7 @@
 		1 (USB A to USB C) Cable
 		- Optional components just allow the robot to be mobile.
 		
-###The Circuitry
+### The Circuitry
 		Circuitry on Mini Breadboard
 			1st Row (+ Power Row)
 				(1) Male to Female going to (+) on Battery Holder
@@ -120,7 +124,7 @@
 		are referenced by their Broadcom SOC channel number i.e. for physical pin 7
 		it would be 4 for GPIO4.
 	
-###The Assembly
+### The Assembly
 	For the assembly, I just 3D printed 2 bases for the sentry bot. The first base just holds
 	the Raspberry Pi, Battery Holder, and Mini Breadboard. There are 4 holes to lift and mount the pi
 	slighty above the base so that the Pi is not resting on the plate. The first servo is bolted into the
