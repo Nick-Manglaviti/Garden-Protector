@@ -1,14 +1,24 @@
 #! usr/bin/python3
 from enum import Enum
 
-# Robot Modes
+'''
+Robot Modes to Set to
+IDLE: Will sit there and do nothing. No goal will be sent.
+Active_Detection: The robot will send a goal to find a targets.
+    It will move in intervals sweeping left then right to check other parts
+    of its view.
+Passive_Detection: The robot will send a goal to find targets.
+
+Background Robot Modes
+Target_Found: On recieving a identified target, the robot changes to this mode.
+Targetting: After finding a target, the robot immediatly swaps to this mode.
+'''
 class Modes(Enum):
     IDLE = 0
     ACTIVE_DETECTION = 1
     PASSIVE_DETECTION = 2
     TARGET_FOUND = 3
     TARGETTING = 4
-
 
 # Servo Pin Values (Use GPIO.BCM values for pins)
 class Servos(Enum):
